@@ -13,7 +13,8 @@ import java.net.Socket;
  */
 public class ServidorCalculador {
 
-    static int numRecibido1, numRecibido2, operacion;
+    static String[] operacion = new String[3];
+    static int numRecibido1, numRecibido2;
 
     /**
      * @param args the command line arguments
@@ -39,12 +40,9 @@ public class ServidorCalculador {
             OutputStream os = newSocket.getOutputStream();
 
             byte[] mensaje = new byte[25];
-            do {
-                is.read(mensaje);
-            } while (mensaje.length < 3);
-
-            Comprobar(mensaje);
-            calcular(operacion, numRecibido1, numRecibido2);
+            is.read(mensaje);
+            Comprobar(new String(mensaje));
+            calcular(Integer.parseInt(operacion[1]), numRecibido1, numRecibido2);
 
             System.out.println("Cerrando el nuevo socket");
             newSocket.close();
@@ -55,16 +53,10 @@ public class ServidorCalculador {
         }
     }
 
-    public static void Comprobar(byte[] b) {
-        for (int i = 0; i < b.length; i++) {
-            if (b[i] == 0) {
-                numRecibido1 = Integer.parseInt(new String(b));
-            } else if (b[i] == 1) {
-                operacion = Integer.parseInt(new String(b));
-            } else if (b[i] == 2) {
-                numRecibido2 = Integer.parseInt(new String(b));
-            }
-        }
+    public static void Comprobar(String recibido) {
+        operacion = recibido.split(" ");
+        numRecibido1 = Integer.parseInt(operacion[0]);
+        numRecibido2 = Integer.parseInt(operacion[2]);
     }
 
     public static void calcular(int recibido, int dato1, int dato2) {
