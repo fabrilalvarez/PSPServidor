@@ -39,21 +39,18 @@ public class ServidorCalculador {
             OutputStream os = newSocket.getOutputStream();
 
             byte[] mensaje = new byte[25];
-            is.read(mensaje);
+            do {
+                is.read(mensaje);
+            } while (mensaje.length < 3);
 
             Comprobar(mensaje);
             calcular(operacion, numRecibido1, numRecibido2);
 
             System.out.println("Cerrando el nuevo socket");
-
             newSocket.close();
-
             System.out.println("Cerrando el socket servidor");
-
             serverSocket.close();
-
             System.out.println("Terminado");
-
         } catch (IOException e) {
         }
     }
