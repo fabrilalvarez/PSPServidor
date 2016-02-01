@@ -13,7 +13,7 @@ import java.net.Socket;
  */
 public class ServidorCalculador {
 
-    static String[] operacion = new String[3];
+    static String operacion;
     static int numRecibido1, numRecibido2;
 
     /**
@@ -42,7 +42,7 @@ public class ServidorCalculador {
             byte[] mensaje = new byte[25];
             is.read(mensaje);
             Comprobar(new String(mensaje));
-            calcular(Integer.parseInt(operacion[1]), numRecibido1, numRecibido2);
+            //calcular(Integer.parseInt(operacion[1]), numRecibido1, numRecibido2);
 
             System.out.println("Cerrando el nuevo socket");
             newSocket.close();
@@ -54,43 +54,45 @@ public class ServidorCalculador {
     }
 
     public static void Comprobar(String recibido) {
-        operacion = recibido.split(" ");
-        numRecibido1 = Integer.parseInt(operacion[0]);
-        numRecibido2 = Integer.parseInt(operacion[2]);
+        System.out.println(recibido);
+        numRecibido1 = Integer.parseInt(recibido.substring(0, 1));
+        operacion = recibido.substring(2, 3);
+        numRecibido2 = Integer.parseInt(recibido.substring(4, 5));
+        System.out.println("dato1 " + numRecibido1 + " dato2 " + operacion + " dato3 " + numRecibido2);
     }
 
     public static void calcular(int recibido, int dato1, int dato2) {
         int op = 0;
         double n1, n2, s, m, d, r;
-        do {
-            op = recibido;
-            switch (op) {
-                case 1:
-                    n1 = dato1;
-                    n2 = dato2;
-                    s = n1 + n2;
-                    System.out.println("Resultado: " + s);
-                    break;
-                case 2:
-                    n1 = dato1;
-                    n2 = dato2;
-                    r = n1 - n2;
-                    System.out.println("Resultado: " + r);
-                    break;
-                case 3:
-                    n1 = dato1;
-                    n2 = dato2;
-                    m = n1 * n2;
-                    System.out.println("Resultado: " + m);
-                    break;
-                case 4:
-                    n1 = dato1;
-                    n2 = dato2;
-                    d = n1 / n2;
-                    System.out.println("Resultado: " + d);
-                    break;
-            }
-        } while (op != 5);
+        //do {
+        op = recibido;
+        switch (op) {
+            case 1:
+                n1 = dato1;
+                n2 = dato2;
+                s = n1 + n2;
+                System.out.println("Resultado: " + s);
+                break;
+            case 2:
+                n1 = dato1;
+                n2 = dato2;
+                r = n1 - n2;
+                System.out.println("Resultado: " + r);
+                break;
+            case 3:
+                n1 = dato1;
+                n2 = dato2;
+                m = n1 * n2;
+                System.out.println("Resultado: " + m);
+                break;
+            case 4:
+                n1 = dato1;
+                n2 = dato2;
+                d = n1 / n2;
+                System.out.println("Resultado: " + d);
+                break;
+        }
+        //} while (op != 5);
     }
 
 }
