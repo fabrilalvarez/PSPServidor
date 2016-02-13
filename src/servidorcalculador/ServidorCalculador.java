@@ -42,8 +42,10 @@ public class ServidorCalculador {
             byte[] mensaje = new byte[25];
             is.read(mensaje);
             Comprobar(new String(mensaje));
-            //calcular(Integer.parseInt(operacion[1]), numRecibido1, numRecibido2);
-
+            double r = calcular(operacion, numRecibido1, numRecibido2);
+            System.out.println("Resultado " + r);
+            System.out.println("Enviando resultado a "+addr);
+            os.write(String.valueOf(r).getBytes());
             System.out.println("Cerrando el nuevo socket");
             newSocket.close();
             System.out.println("Cerrando el socket servidor");
@@ -61,37 +63,32 @@ public class ServidorCalculador {
         System.out.println("dato1 " + numRecibido1 + " dato2 " + operacion + " dato3 " + numRecibido2);
     }
 
-    public static void calcular(int recibido, int dato1, int dato2) {
-        int op = 0;
-        double n1, n2, s, m, d, r;
+    public static double calcular(String recibido, int dato1, int dato2) {
+        double n1, n2, r = 0;
         //do {
-        op = recibido;
-        switch (op) {
-            case 1:
+        switch (recibido) {
+            case "+":
                 n1 = dato1;
                 n2 = dato2;
-                s = n1 + n2;
-                System.out.println("Resultado: " + s);
+                r = n1 + n2;
                 break;
-            case 2:
+            case "-":
                 n1 = dato1;
                 n2 = dato2;
                 r = n1 - n2;
-                System.out.println("Resultado: " + r);
                 break;
-            case 3:
+            case "*":
                 n1 = dato1;
                 n2 = dato2;
-                m = n1 * n2;
-                System.out.println("Resultado: " + m);
+                r = n1 * n2;
                 break;
-            case 4:
+            case "/":
                 n1 = dato1;
                 n2 = dato2;
-                d = n1 / n2;
-                System.out.println("Resultado: " + d);
+                r = n1 / n2;
                 break;
         }
+        return r;
         //} while (op != 5);
     }
 
